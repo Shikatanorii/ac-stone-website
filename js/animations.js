@@ -44,78 +44,13 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Mobile Menu Toggle (Refactored for CSS-class based responsiveness)
+// Mobile Menu Toggle
 const mobileToggle = document.querySelector('.mobile-toggle');
 const navLinksContainer = document.querySelector('.nav-links');
 
 mobileToggle.addEventListener('click', () => {
     navLinksContainer.classList.toggle('active');
 });
-
-// ---------------------------------------------
-// SECURE CONTACT FORM HANDLING & VALIDATION
-// ---------------------------------------------
-const contactForm = document.querySelector('.contact-form');
-if(contactForm) {
-    contactForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        // 1. Basic Security Validation/Sanitization
-        const nameInput = document.getElementById('name').value.trim();
-        const emailInput = document.getElementById('email').value.trim();
-        const serviceInput = document.getElementById('service').value;
-        const msgInput = document.getElementById('message').value.trim();
-        const submitBtn = e.target.querySelector('button[type="submit"]');
-
-        // Prevent empty submissions (client-side enforcement)
-        if (!nameInput || !emailInput || !serviceInput || !msgInput) {
-            alert('Please fill out all required fields securely.');
-            return;
-        }
-
-        // 2. Strict Email format validation
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailPattern.test(emailInput)) {
-            alert('Please enter a valid email address.');
-            return;
-        }
-
-        // 3. Prevent Double Submission (Stress-test protection)
-        const originalText = submitBtn.innerText;
-        submitBtn.innerText = "Securing Connection & Sending...";
-        submitBtn.disabled = true;
-        submitBtn.style.opacity = '0.7';
-
-        try {
-            // VERCEL DEPLOYMENT READY: 
-            // Once you have your Vercel Function (api/contact) or Web3Forms URL, 
-            // replace the URL below.
-            
-            /*
-            const response = await fetch('/api/contact', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name: nameInput, email: emailInput, service: serviceInput, message: msgInput })
-            });
-            if (!response.ok) throw new Error('Network response was not ok');
-            */
-
-            // Simulating successful network request for deployment readiness
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            
-            // 4. Success State Feedback
-            submitBtn.innerText = "Message Sent Securely! ✓";
-            submitBtn.style.backgroundColor = "green";
-            submitBtn.style.opacity = '1';
-            e.target.reset(); // Clear form securely
-        } catch(err) {
-            console.error("Transmission Error:", err);
-            submitBtn.innerText = "Transmission Error. Try Again.";
-            submitBtn.disabled = false;
-            submitBtn.style.opacity = '1';
-        }
-    });
-}
 
 // ---------------------------------------------
 // GSAP SCROLL ANIMATIONS
@@ -142,123 +77,82 @@ gsap.to('.hero-img', {
     }
 });
 
-// General Scroll Reveals
-// Reveal upwards
-const revealElements = document.querySelectorAll('.gs-reveal');
-revealElements.forEach(el => {
-    el.style.willChange = 'transform, opacity';
-    gsap.from(el, {
-        scrollTrigger: {
-            trigger: el,
-            start: "top 88%",
-            once: true
-        },
-        y: 30,
-        opacity: 0,
-        duration: 1.1,
-        ease: 'power2.out'
+// ---------------------------------------------
+// SAFE SCROLL REVEAL HELPER
+// Uses gsap.fromTo() so elements ALWAYS end at full opacity,
+// even if the ScrollTrigger fires late or is already past.
+// ---------------------------------------------
+function safeReveal(selector, fromVars, toVars, triggerOpts) {
+    const elements = document.querySelectorAll(selector);
+    elements.forEach(el => {
+        gsap.fromTo(el, 
+            { ...fromVars },
+            {
+                ...toVars,
+                scrollTrigger: {
+                    trigger: el,
+                    start: "top 90%",
+                    once: true,
+                    ...triggerOpts
+                }
+            }
+        );
     });
-});
+}
 
-// Reveal Up (Staggered or individual)
-const revealUpElements = document.querySelectorAll('.gs-reveal-up');
-revealUpElements.forEach(el => {
-    el.style.willChange = 'transform, opacity';
-    gsap.from(el, {
-        scrollTrigger: {
-            trigger: el,
-            start: "top 88%",
-            once: true
-        },
-        y: 30,
-        opacity: 0,
-        duration: 1,
-        ease: 'power2.out'
-    });
-});
+// General Scroll Reveals
+safeReveal('.gs-reveal',
+    { y: 30, opacity: 0 },
+    { y: 0, opacity: 1, duration: 1.1, ease: 'power2.out' }
+);
+
+// Reveal Up (individual elements with this class)
+safeReveal('.gs-reveal-up',
+    { y: 30, opacity: 0 },
+    { y: 0, opacity: 1, duration: 1, ease: 'power2.out' }
+);
 
 // Reveal Right
-const revealRightElements = document.querySelectorAll('.gs-reveal-right');
-revealRightElements.forEach(el => {
-    el.style.willChange = 'transform, opacity';
-    gsap.from(el, {
-        scrollTrigger: {
-            trigger: el,
-            start: "top 85%",
-            once: true
-        },
-        x: 35,
-        opacity: 0,
-        duration: 1.1,
-        ease: 'power2.out'
-    });
-});
+safeReveal('.gs-reveal-right',
+    { x: 35, opacity: 0 },
+    { x: 0, opacity: 1, duration: 1.1, ease: 'power2.out' }
+);
 
 // Reveal Left
-const revealLeftElements = document.querySelectorAll('.gs-reveal-left');
-revealLeftElements.forEach(el => {
-    el.style.willChange = 'transform, opacity';
-    gsap.from(el, {
-        scrollTrigger: {
-            trigger: el,
-            start: "top 85%",
-            once: true
-        },
-        x: -35,
-        opacity: 0,
-        duration: 1.1,
-        ease: 'power2.out'
-    });
-});
+safeReveal('.gs-reveal-left',
+    { x: -35, opacity: 0 },
+    { x: 0, opacity: 1, duration: 1.1, ease: 'power2.out' }
+);
 
-// Gallery Staggered Reveal — single parent trigger, smooth cascade
-const galleryStagger = document.querySelector('.gs-gallery-stagger');
-if (galleryStagger) {
-    const galleryItems = galleryStagger.querySelectorAll('.gallery-item');
-    galleryItems.forEach(item => {
-        item.style.willChange = 'transform, opacity';
-    });
-    gsap.from(galleryItems, {
-        scrollTrigger: {
-            trigger: galleryStagger,
-            start: "top 80%",
-            once: true
-        },
-        y: 40,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.2,
-        ease: 'power2.out',
-        onComplete: () => {
-            galleryItems.forEach(item => {
-                item.style.willChange = 'auto';
-            });
+// ---------------------------------------------
+// STAGGERED REVEALS (parent-triggered, smooth cascade)
+// Uses gsap.fromTo() for safety — elements always end visible.
+// ---------------------------------------------
+function staggerReveal(parentSelector, childSelector, opts = {}) {
+    const parent = document.querySelector(parentSelector);
+    if (!parent) return;
+    const children = parent.querySelectorAll(childSelector);
+    if (!children.length) return;
+
+    gsap.fromTo(children,
+        { y: 40, opacity: 0 },
+        {
+            y: 0,
+            opacity: 1,
+            duration: opts.duration || 1,
+            stagger: opts.stagger || 0.2,
+            ease: 'power2.out',
+            scrollTrigger: {
+                trigger: parent,
+                start: "top 82%",
+                once: true
+            }
         }
-    });
+    );
 }
 
-// Services Staggered Reveal — single parent trigger, smooth cascade
-const servicesStagger = document.querySelector('.gs-services-stagger');
-if (servicesStagger) {
-    const serviceCards = servicesStagger.querySelectorAll('.service-card');
-    serviceCards.forEach(card => {
-        card.style.willChange = 'transform, opacity';
-    });
-    gsap.from(serviceCards, {
-        scrollTrigger: {
-            trigger: servicesStagger,
-            start: "top 80%",
-            once: true
-        },
-        y: 40,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.15,
-        ease: 'power2.out',
-        onComplete: () => {
-            serviceCards.forEach(card => {
-                card.style.willChange = 'auto';
-            });
-        }
-    });
-}
+// Services cards stagger
+staggerReveal('.gs-services-stagger', '.service-card', { stagger: 0.15 });
+
+// Gallery items stagger
+staggerReveal('.gs-gallery-stagger', '.gallery-item', { stagger: 0.2 });
