@@ -210,3 +210,55 @@ revealLeftElements.forEach(el => {
         ease: 'power2.out'
     });
 });
+
+// Gallery Staggered Reveal — single parent trigger, smooth cascade
+const galleryStagger = document.querySelector('.gs-gallery-stagger');
+if (galleryStagger) {
+    const galleryItems = galleryStagger.querySelectorAll('.gallery-item');
+    galleryItems.forEach(item => {
+        item.style.willChange = 'transform, opacity';
+    });
+    gsap.from(galleryItems, {
+        scrollTrigger: {
+            trigger: galleryStagger,
+            start: "top 80%",
+            once: true
+        },
+        y: 40,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.2,
+        ease: 'power2.out',
+        onComplete: () => {
+            galleryItems.forEach(item => {
+                item.style.willChange = 'auto';
+            });
+        }
+    });
+}
+
+// Services Staggered Reveal — single parent trigger, smooth cascade
+const servicesStagger = document.querySelector('.gs-services-stagger');
+if (servicesStagger) {
+    const serviceCards = servicesStagger.querySelectorAll('.service-card');
+    serviceCards.forEach(card => {
+        card.style.willChange = 'transform, opacity';
+    });
+    gsap.from(serviceCards, {
+        scrollTrigger: {
+            trigger: servicesStagger,
+            start: "top 80%",
+            once: true
+        },
+        y: 40,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.15,
+        ease: 'power2.out',
+        onComplete: () => {
+            serviceCards.forEach(card => {
+                card.style.willChange = 'auto';
+            });
+        }
+    });
+}
