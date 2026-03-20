@@ -146,60 +146,67 @@ gsap.to('.hero-img', {
 // Reveal upwards
 const revealElements = document.querySelectorAll('.gs-reveal');
 revealElements.forEach(el => {
+    el.style.willChange = 'transform, opacity';
     gsap.from(el, {
         scrollTrigger: {
             trigger: el,
-            start: "top 85%", // Trigger when top of element hits 85% down viewport
-            toggleActions: "play none none reverse"
+            start: "top 88%",
+            once: true
         },
-        y: 40,
+        y: 30,
         opacity: 0,
-        duration: 1,
-        ease: 'power3.out'
+        duration: 1.1,
+        ease: 'power2.out'
     });
 });
 
 // Reveal Up (Staggered or individual)
 const revealUpElements = document.querySelectorAll('.gs-reveal-up');
 revealUpElements.forEach(el => {
+    el.style.willChange = 'transform, opacity';
     gsap.from(el, {
         scrollTrigger: {
             trigger: el,
-            start: "top 85%",
+            start: "top 88%",
+            once: true
         },
-        y: 50,
+        y: 30,
         opacity: 0,
-        duration: 0.8,
-        ease: 'power3.out'
+        duration: 1,
+        ease: 'power2.out'
     });
 });
 
 // Reveal Right
 const revealRightElements = document.querySelectorAll('.gs-reveal-right');
 revealRightElements.forEach(el => {
+    el.style.willChange = 'transform, opacity';
     gsap.from(el, {
         scrollTrigger: {
             trigger: el,
-            start: "top 80%",
+            start: "top 85%",
+            once: true
         },
-        x: 50,
+        x: 35,
         opacity: 0,
-        duration: 1,
-        ease: 'power3.out'
+        duration: 1.1,
+        ease: 'power2.out'
     });
 });
 
 // Reveal Left
 const revealLeftElements = document.querySelectorAll('.gs-reveal-left');
 revealLeftElements.forEach(el => {
+    el.style.willChange = 'transform, opacity';
     gsap.from(el, {
         scrollTrigger: {
             trigger: el,
-            start: "top 80%",
+            start: "top 85%",
+            once: true
         },
-        x: -50,
+        x: -35,
         opacity: 0,
-        duration: 1,
-        ease: 'power3.out'
+        duration: 1.1,
+        ease: 'power2.out'
     });
 });
