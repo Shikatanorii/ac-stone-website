@@ -24,7 +24,7 @@ const interactiveElements = document.querySelectorAll('a, button, .service-card,
 interactiveElements.forEach(el => {
     el.addEventListener('mouseenter', () => {
         cursorOutline.style.transform = 'translate(-50%, -50%) scale(1.5)';
-        cursorOutline.style.backgroundColor = 'rgba(201, 42, 42, 0.1)';
+        cursorOutline.style.backgroundColor = 'rgba(90, 106, 114, 0.1)';
         cursorOutline.style.borderColor = 'var(--clr-primary-hover)';
     });
     el.addEventListener('mouseleave', () => {

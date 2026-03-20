@@ -1,15 +1,15 @@
 /* --- CSS Variables & Design Tokens --- */
 :root {
     /* Colors */
-    --clr-background: #FAF9F6; /* Soft Off-White for a natural stone feel */
+    --clr-background: #F4F6F6; /* Cool Marble White */
     --clr-surface: #FFFFFF;
-    --clr-dark: #121212;
-    --clr-darker: #0A0A0A;
+    --clr-dark: #2B303A; /* Deep Charcoal Slab */
+    --clr-darker: #1E2229;
     
-    /* AC Stone Corp Brand Colors */
-    --clr-primary: #C92A2A; /* Deep striking Red */
-    --clr-primary-hover: #E03131;
-    --clr-accent: #D4AF37; /* Gold accent for luxury */
+    /* AC Stone Corp Brand Colors - Marble Theme */
+    --clr-primary: #5A6A72; /* Premium Slate Grey */
+    --clr-primary-hover: #455259;
+    --clr-accent: #CBAA77; /* Subtle Champagne Gold */
     
     /* Text Colors */
     --clr-text: #2D2D2D;
@@ -166,7 +166,7 @@ h1, h2, h3, h4, h5, h6 {
 .btn-primary:hover {
     background-color: var(--clr-primary-hover);
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(201, 42, 42, 0.2);
+    box-shadow: 0 10px 20px rgba(90, 106, 114, 0.2);
 }
 
 .btn-secondary {
@@ -489,7 +489,7 @@ h1, h2, h3, h4, h5, h6 {
 .service-icon {
     width: 64px;
     height: 64px;
-    background: rgba(201, 42, 42, 0.1);
+    background: rgba(90, 106, 114, 0.1);
     color: var(--clr-primary);
     border-radius: var(--radius-pill);
     display: flex;
@@ -650,7 +650,7 @@ h1, h2, h3, h4, h5, h6 {
 .contact-form select:focus,
 .contact-form textarea:focus {
     border-color: var(--clr-primary);
-    box-shadow: 0 0 0 4px rgba(201, 42, 42, 0.1);
+    box-shadow: 0 0 0 4px rgba(90, 106, 114, 0.1);
 }
 
 /* --- Footer --- */
